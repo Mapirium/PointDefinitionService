@@ -29,4 +29,9 @@
             </column>
         </addColumn>
     </changeSet>
+
+    <changeSet id="3" author="surech">
+        <dropUniqueConstraint tableName="pointdefinition" constraintName="NAME"/>
+        <addUniqueConstraint tableName="pointdefinition" columnNames="NAME,MAP_ID" constraintName="UNIQUE_NAME"/>
+    </changeSet>
 </databaseChangeLog>
