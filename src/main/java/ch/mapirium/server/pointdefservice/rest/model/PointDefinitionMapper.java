@@ -2,6 +2,7 @@ package ch.mapirium.server.pointdefservice.rest.model;
 
 import ch.mapirium.server.pointdefservice.model.PointDefinitionEntity;
 import ch.mapirium.server.pointdefservice.rest.controller.PointDefinitionRestController;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.TemplateVariable;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class PointDefinitionMapper {
         result.setCreatedAt(entity.getCreatedAt());
 
         result.add(linkTo(methodOn(PointDefinitionRestController.class).getByPublicId(result.getMapId(), result.getPublicId())).withSelfRel());
+        result.add(new Link("/map/" + entity.getMapId() + "/pointdefinition/" + entity.getPublicId() + "/fielddefinition", "fielddefinitions"));
 
         return result;
     }
