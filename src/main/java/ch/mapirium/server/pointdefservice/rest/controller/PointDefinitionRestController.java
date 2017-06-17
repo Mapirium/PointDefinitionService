@@ -3,6 +3,8 @@ package ch.mapirium.server.pointdefservice.rest.controller;
 import ch.mapirium.server.common.springmvc.exceptions.NotFoundException;
 import ch.mapirium.server.pointdefservice.model.PointDefinitionEntity;
 import ch.mapirium.server.pointdefservice.repo.PointDefinitionRepository;
+import ch.mapirium.server.pointdefservice.rest.model.PointDefinitionListMapper;
+import ch.mapirium.server.pointdefservice.rest.model.PointDefinitionListResource;
 import ch.mapirium.server.pointdefservice.rest.model.PointDefinitionMapper;
 import ch.mapirium.server.pointdefservice.rest.model.PointDefinitionResource;
 import ch.mapirium.server.pointdefservice.rest.service.PointDefinitionService;
@@ -27,15 +29,18 @@ public class PointDefinitionRestController {
     private PointDefinitionMapper pointDefinitionMapper;
 
     @Autowired
+    private PointDefinitionListMapper pointDefinitionListMapper;
+
+    @Autowired
     private PointDefinitionService pointDefinitionService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<PointDefinitionResource> getAll(@PathVariable("mapId") String mapId){
+    public PointDefinitionListResource getAll(@PathVariable("mapId") String mapId){
         // Daten laden
         List<PointDefinitionEntity> points = pointDefinitionRepository.findByMapId(mapId);
 
         // Mappen
-        List<PointDefinitionResource> result = points.stream().map(pointDefinitionMapper::fromEntity).collect(Collectors.toList());
+        PointDefinitionListResource result = pointDefinitionListMapper.fromEntity(points, mapId);
         return result;
     }
 
